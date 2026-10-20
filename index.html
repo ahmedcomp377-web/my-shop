@@ -3,65 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طلب المنتج</title>
+    <title>طلب المنتج المميز</title>
     <style>
-        * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; }
-        body { background-color: #f4f6f9; padding: 20px 10px; display: flex; justify-content: center; }
-        .card { max-width: 480px; width: 100%; background: #fff; border-radius: 16px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-        .product-img { width: 100%; height: 260px; object-fit: cover; border-radius: 12px; margin-bottom: 15px; }
-        .product-title { font-size: 1.5rem; margin-bottom: 8px; color: #111; font-weight: bold; }
-        .price { font-size: 1.4rem; color: #25D366; font-weight: bold; margin-bottom: 12px; }
-        .description { font-size: 0.95rem; color: #555; line-height: 1.6; margin-bottom: 20px; background: #fafafa; padding: 12px; border-radius: 8px; }
-        .form-group { margin-bottom: 14px; text-align: right; }
-        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.9rem; color: #333; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; outline: none; }
-        input:focus { border-color: #25D366; }
-        .btn { width: 100%; background: #25D366; color: white; border: none; padding: 15px; font-size: 1.15rem; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.2s; }
-        .btn:hover { background: #20bd5a; }
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #f0f2f5;
+            padding: 20px 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .card {
+            max-width: 480px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+        .product-img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        .badge {
+            background-color: #ffebe9;
+            color: #e53e3e;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+        .product-title {
+            font-size: 1.4rem;
+            margin-bottom: 8px;
+            color: #1a202c;
+            line-height: 1.3;
+        }
+        .price-container {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .price {
+            font-size: 1.5rem;
+            color: #25D366;
+            font-weight: bold;
+        }
+        .old-price {
+            font-size: 1.1rem;
+            color: #a0aec0;
+            text-decoration: line-through;
+        }
+        .features {
+            background: #f7fafc;
+            border-right: 4px solid #25D366;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 0.92rem;
+            color: #4a5568;
+            line-height: 1.6;
+        }
+        .form-group {
+            margin-bottom: 14px;
+            text-align: right;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #2d3748;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        input:focus, select:focus {
+            border-color: #25D366;
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.2);
+        }
+        .btn {
+            width: 100%;
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn:hover {
+            background: #1ebc57;
+        }
+        .guarantee {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #718096;
+            margin-top: 12px;
+        }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <!-- صورة المنتج: استبدل الرابط أدناه برابط صورتك -->
-    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" alt="صورة المنتج" class="product-img">
+    <!-- صورة المنتج: ضع رابط صورة منتجك هنا -->
+    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600" alt="صورة المنتج" class="product-img">
+
+    <span class="badge">🔥 خصم لفترة محدودة</span>
     
-    <!-- اسم وسعر المنتج -->
-    <h2 class="product-title" id="productName">سماعة بلوتوث لاسلكية عالية الجودة</h2>
-    <div class="price" id="productPrice">السعر: 350 ج.م (شامل التوصيل)</div>
+    <!-- اسم المنتج -->
+    <h2 class="product-title" id="productName">اسم المنتج الخاص بك هنا</h2>
     
-    <!-- وصف ومميزات المنتج -->
-    <div class="description">
-        ✨ **مميزات المنتج:**<br>
-        - صوت نقي جداً مع خاصية عزل الضوضاء.<br>
-        - بطارية تدوم حتى 8 ساعات عمل متواصل.<br>
-        - ضمان لمدة سنة ضد عيوب التصنيع.
+    <!-- السعر -->
+    <div class="price-container">
+        <span class="price" id="productPrice">350 ج.م</span>
+        <span class="old-price">500 ج.م</span>
     </div>
 
-    <!-- نموذج الطلب -->
+    <!-- مميزات ومواصفات المنتج -->
+    <div class="features">
+        ✅ خامات عالية الجودة وتصميم عصري.<br>
+        ✅ التوصيل سريع حتى باب المنزل.<br>
+        ✅ المعاينة والافحص قبل الاستلام والتعديل.
+    </div>
+
+    <!-- نموذج أدخال البيانات -->
     <form id="orderForm">
         <div class="form-group">
-            <label>الاسم بالكامل *</label>
-            <input type="text" id="name" placeholder="أدخل اسمك" required>
+            <label for="name">الاسم بالكامل *</label>
+            <input type="text" id="name" placeholder="أدخل اسمك الكريم" required>
         </div>
         <div class="form-group">
-            <label>رقم الهاتف للتأكيد *</label>
+            <label for="phone">رقم الهاتف للتأكيد *</label>
             <input type="tel" id="phone" placeholder="01xxxxxxxxx" required>
         </div>
         <div class="form-group">
-            <label>العنوان بالتفصيل *</label>
+            <label for="address">العنوان بالتفصيل *</label>
             <input type="text" id="address" placeholder="المحافظة - المدينة - الشارع" required>
         </div>
         <div class="form-group">
-            <label>الكمية المطلوب شراءها</label>
+            <label for="quantity">الكمية</label>
             <select id="quantity">
                 <option value="1">قطعة واحدة</option>
-                <option value="2">قطعتين</option>
+                <option value="2">قطعتين (خصم إضافي)</option>
                 <option value="3">3 قطع</option>
             </select>
         </div>
         <button type="button" class="btn" onclick="sendToWhatsApp()">اشتري الآن وتأكيد عبر واتساب 💬</button>
     </form>
+    
+    <div class="guarantee">🔒 الدفع عند الاستلام - معاينة المنتجات قبل الدفع</div>
 </div>
 
 <script>
@@ -74,12 +190,12 @@
         const productPrice = document.getElementById('productPrice').innerText;
 
         if (!name || !phone || !address) {
-            alert('يرجى كتابة جميع البيانات المطلوبة');
+            alert('يرجى كتابة كافة البيانات المطلوبة (الاسم، رقم الهاتف، والعنوان)');
             return;
         }
 
-        const myPhone = "201070328288"; // رقمك لاستقبال الطلبات
-        const text = `🛍️ *طلب جديد من الموقع*%0A%0A📦 *المنتج:* ${productName}%0A💰 *السعر:* ${productPrice}%0A🔢 *الكمية:* ${quantity}%0A%0A👤 *اسم العميل:* ${name}%0A📞 *رقم الهاتف:* ${phone}%0A📍 *العنوان:* ${address}`;
+        const myPhone = "201070328288"; // رقم الواتساب الخاص بك
+        const text = `🛍️ *طلب جديد من المتجر*%0A%0A📦 *المنتج:* ${productName}%0A💰 *السعر:* ${productPrice}%0A🔢 *الكمية:* ${quantity}%0A%0A👤 *اسم العميل:* ${name}%0A📞 *الهاتف:* ${phone}%0A📍 *العنوان:* ${address}`;
         
         window.open(`https://wa.me/${myPhone}?text=${text}`, '_blank');
     }
