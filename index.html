@@ -9,7 +9,7 @@
         body { background-color: #f8f9fa; color: #333; padding-bottom: 80px; }
         
         /* الهيدر */
-        header { background: #fff; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; sticky; top: 0; z-index: 100; }
+        header { background: #fff; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .logo { font-size: 1.3rem; font-weight: bold; color: #111; }
         .cart-icon { position: relative; cursor: pointer; font-size: 1.4rem; }
         .cart-count { position: absolute; top: -8px; left: -10px; background: #e53e3e; color: #fff; font-size: 0.75rem; font-weight: bold; padding: 2px 6px; border-radius: 50%; }
@@ -79,25 +79,24 @@
 </div>
 
 <script>
-    // قائمة المنتجات التي تبيعها (يمكنك تعديل الأسماء والأشكال والأسعار هنا)
+    // قائمة المنتجات مع تصحيح الأرقام التعريفية (IDs) لتكون فريدة لكل منتج
     const products = [
         { id: 1, name: "simply moist خصم 50%غسول الجسم باليوريا لمحاربة جفاف الجلد", price: 76, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562499/%D9%87%D9%86.png" },
-        { id: 1, name: "بيلا بلسم منظف يزيل المكياج والشوائب خصم 50%", price: 60, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562951/%D8%AA%D9%86%D9%86%D8%A7.png" },
-        { id: 1, name: "لين جل حلاقة نسائي خصم50%", price: 84, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563103/%D8%A7%D9%84%D8%AA.png" },
-        { id: 1, name: "MISKA جل معطر للجسم خصم 50%", price: 29.5, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563182/%D9%84%D8%A7%D8%AA.png" },
-        { id: 1, name: "بودي لوشن هيفن خصم 50%", price: 79, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563273/%D8%A7.png" },
-        { id: 1, name: "بيلا تنت للخدود والشفايف خصم50%", price: 79, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563357/%D8%A8.png" },
-        { id: 1, name: "كريم مرطب باليوريا + سوفت سكين ماجيك بيلا", price: 110, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563697/%D9%83.png" },
-        { id: 1, name: "بودي لوشن واي اوت متتعدد الاحجام خصم 50%", price: 82.5, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563775/%D8%A7%D8%A8.png" },
-        { id: 1, name: "بلاش ميست سبراي معطر للشعر بالكبسولات العطرية", price: 80, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563852/%D8%A7%D8%AA.png" },
-        { id: 1, name: "اودو برفان تندر نايت", price: 274, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563977/%D8%A7%D8%AB.png" },
-        { id: 1, name: "مجموعة جولدن تاتش برفان + كريم مزيل لرائحة العرق + مخمرية للجسم", price: 339, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564542/%D8%A7%D8%A7%D8%A7.png" },
-        { id: 1, name: "مجموعة بينك برفان + بودي لوشن", price: 205, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564812/%D8%AA%D9%86.png" },
-        { id: 1, name: "مجموعة اودوبرفان روائح متعددة  ", price: 381, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572400/%D8%AA%D9%86%D8%AA%D9%86.png" },
-        { id: 1, name: "امجموعة2 اودوبرفان روائح متعددة", price: 274, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572590/%D8%B4%D8%B3.png" },
-        { id: 1, name: "امجموعة3 اودوبرفان روائح متعددة", price: 223, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572713/%D8%AA%D9%84%D8%A7.png" },
-        { id: 1, name: "مجموعة4 اودوبرفان روائح متعددة", price: 200, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572804/%D9%8A%D8%A8%D8%A7%D8%A8%D9%84.png" },
-     
+        { id: 2, name: "بيلا بلسم منظف يزيل المكياج والشوائب خصم 50%", price: 60, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562951/%D8%AA%D9%86%D9%86%D8%A7.png" },
+        { id: 3, name: "لين جل حلاقة نسائي خصم 50%", price: 84, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563103/%D8%A7%D9%84%D8%AA.png" },
+        { id: 4, name: "MISKA جل معطر للجسم خصم 50%", price: 29.5, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563182/%D9%84%D8%A7%D8%AA.png" },
+        { id: 5, name: "بودي لوشن هيفن خصم 50%", price: 79, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563273/%D8%A7.png" },
+        { id: 6, name: "بيلا تنت للخدود والشفايف خصم 50%", price: 79, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563357/%D8%A8.png" },
+        { id: 7, name: "كريم مرطب باليوريا + سوفت سكين ماجيك بيلا", price: 110, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563697/%D9%83.png" },
+        { id: 8, name: "بودي لوشن واي اوت متعدد الاحجام خصم 50%", price: 82.5, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563775/%D8%A7%D8%A8.png" },
+        { id: 9, name: "بلاش ميست سبراي معطر للشعر بالكبسولات العطرية", price: 80, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563852/%D8%A7%D8%AA.png" },
+        { id: 10, name: "اودو برفان تندر نايت", price: 274, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563977/%D8%A7%D8%AB.png" },
+        { id: 11, name: "مجموعة جولدن تاتش برفان + كريم مزيل لرائحة العرق + مخمرية للجسم", price: 339, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564542/%D8%A7%D8%A7%D8%A7.png" },
+        { id: 12, name: "مجموعة بينك برفان + بودي لوشن", price: 205, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564812/%D8%AA%D9%86.png" },
+        { id: 13, name: "مجموعة اودوبرفان روائح متعددة", price: 381, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572400/%D8%AA%D9%86%D8%AA%D9%86.png" },
+        { id: 14, name: "المجموعة 2 اودوبرفان روائح متعددة", price: 274, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572590/%D8%B4%D8%B3.png" },
+        { id: 15, name: "المجموعة 3 اودوبرفان روائح متعددة", price: 223, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572713/%D8%AA%D9%84%D8%A7.png" },
+        { id: 16, name: "مجموعة 4 اودوبرفان روائح متعددة", price: 200, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572804/%D9%8A%D8%A8%D8%A7%D8%A8%D9%84.png" }
     ];
 
     let cart = [];
