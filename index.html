@@ -287,7 +287,7 @@
 
         let itemsText = cart.map(i => `- ${i.name} (الكمية: ${i.quantity}) - ${i.price * i.quantity} ج.م`).join('\n');
         let subtotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
-        let shipping = shippingRates[govSelect.value] || 35;
+        let shipping = shippingRates[govSelect.value] === undefined ? 35 : shippingRates[govSelect.value];
         let total = subtotal + shipping;
 
         return `🛍️ *طلب جديد من متجر نضارة*\n\n📦 *المنتجات المطلوبة:*\n${itemsText}\n\n💵 *إجمالي المنتجات:* ${subtotal} ج.م\n🚚 *مصاريف الشحن:* ${shipping} ج.م (${govText})\n💰 *الإجمالي الكلي:* ${total} ج.م\n💳 *طريقة الدفع:* ${payText}\n\n👤 *اسم العميل:* ${name}\n📞 *رقم الهاتف:* ${phone}\n📍 *العنوان:* ${address}`;
