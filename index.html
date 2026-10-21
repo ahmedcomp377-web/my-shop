@@ -8,6 +8,9 @@
         * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; }
         body { background-color: #f8f9fa; color: #333; padding-bottom: 80px; }
         
+        /* شريط الإعلانات العلوي */
+        .promo-banner { background: #111; color: #fff; text-align: center; padding: 8px 10px; font-size: 0.85rem; font-weight: bold; }
+
         /* الهيدر */
         header { background: #fff; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .logo { font-size: 1.3rem; font-weight: bold; color: #111; }
@@ -16,11 +19,20 @@
 
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
         
+        /* أدوات البحث والفلترة */
+        .controls-section { margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; }
+        .search-input { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95rem; outline: none; transition: 0.2s; }
+        .search-input:focus { border-color: #25D366; box-shadow: 0 0 5px rgba(37, 211, 102, 0.2); }
+        
+        .categories { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; }
+        .cat-btn { background: #fff; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: 0.2s; }
+        .cat-btn.active, .cat-btn:hover { background: #25D366; color: #fff; border-color: #25D366; }
+
         /* شبكة المنتجات */
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .product-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 15px; display: flex; flex-direction: column; justify-content: space-between; }
         .product-img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
-        .product-title { font-size: 1rem; margin-bottom: 8px; font-weight: bold; }
+        .product-title { font-size: 0.95rem; margin-bottom: 8px; font-weight: bold; line-height: 1.4; }
         .product-price { color: #25D366; font-size: 1.1rem; font-weight: bold; margin-bottom: 12px; }
         .add-btn { background: #25D366; color: #fff; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; }
         .add-btn:hover { background: #1ebc57; }
@@ -40,12 +52,15 @@
         label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
         input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.95rem; }
         .checkout-btn { width: 100%; background: #25D366; color: #fff; border: none; padding: 14px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; }
-        
+        .copy-btn { width: 100%; background: #007bff; color: #fff; border: none; padding: 10px; font-size: 0.95rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 8px; }
+
         /* زر واتساب عائم */
         .whatsapp-float { position: fixed; bottom: 20px; left: 20px; background: #25D366; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1000; text-decoration: none; }
     </style>
 </head>
 <body>
+
+<div class="promo-banner">✨ خصومات تصل إلى 50% + شحن سريع لجميع المحافظات 🚚</div>
 
 <header>
     <div class="logo">🛒 متجر نضارة</div>
@@ -55,8 +70,16 @@
 </header>
 
 <div class="container">
-    <h2 style="margin-bottom: 20px;">أحدث المنتجات</h2>
-    
+    <div class="controls-section">
+        <input type="text" id="searchInput" class="search-input" placeholder="🔍 ابحث عن منتجك المفضل..." oninput="filterProducts()">
+        <div class="categories">
+            <button class="cat-btn active" onclick="filterCategory('all', this)">الكل</button>
+            <button class="cat-btn" onclick="filterCategory('care', this)">عناية ومرطبات</button>
+            <button class="cat-btn" onclick="filterCategory('perfumes', this)">عطور وميست</button>
+            <button class="cat-btn" onclick="filterCategory('sets', this)">مجموعات مميزة</button>
+        </div>
+    </div>
+
     <!-- قسم عرض المنتجات -->
     <div class="products-grid" id="productsGrid"></div>
 
@@ -81,6 +104,7 @@
                 <input type="text" id="address" placeholder="المحافظة - المدينة - الشارع" required>
             </div>
             <button type="button" class="checkout-btn" onclick="sendToWhatsApp()">إتمام الطلب عبر واتساب 💬</button>
+            <button type="button" class="copy-btn" onclick="copyOrderDetails()">📋 نسخ تفاصيل الطلب احتياطياً</button>
         </form>
     </div>
 </div>
@@ -90,31 +114,35 @@
 
 <script>
     const products = [
-        { id: 1, name: "simply moist خصم 50% غسول الجسم باليوريا لمحاربة جفاف الجلد", price: 76, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562499/%D9%87%D9%86.png" },
-        { id: 2, name: "بيلا بلسم منظف يزيل المكياج والشوائب خصم 50%", price: 60, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562951/%D8%AA%D9%86%D9%86%D8%A7.png" },
-        { id: 3, name: "لين جل حلاقة نسائي خصم 50%", price: 84, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563103/%D8%A7%D9%84%D8%AA.png" },
-        { id: 4, name: "MISKA جل معطر للجسم خصم 50%", price: 29.5, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563182/%D9%84%D8%A7%D8%AA.png" },
-        { id: 5, name: "بودي لوشن هيفن خصم 50%", price: 79, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563273/%D8%A7.png" },
-        { id: 6, name: "بيلا تنت للخدود والشفايف خصم 50%", price: 79, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563357/%D8%A8.png" },
-        { id: 7, name: "كريم مرطب باليوريا + سوفت سكين ماجيك بيلا", price: 110, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563697/%D9%83.png" },
-        { id: 8, name: "بودي لوشن واي اوت متعدد الاحجام خصم 50%", price: 82.5, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563775/%D8%A7%D8%A8.png" },
-        { id: 9, name: "بلاش ميست سبراي معطر للشعر بالكبسولات العطرية", price: 80, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563852/%D8%A7%D8%AA.png" },
-        { id: 10, name: "اودو برفان تندر نايت", price: 274, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563977/%D8%A7%D8%AB.png" },
-        { id: 11, name: "مجموعة جولدن تاتش برفان + كريم مزيل لرائحة العرق + مخمرية للجسم", price: 339, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564542/%D8%A7%D8%A7%D8%A7.png" },
-        { id: 12, name: "مجموعة بينك برفان + بودي لوشن", price: 205, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564812/%D8%AA%D9%86.png" },
-        { id: 13, name: "مجموعة اودوبرفان روائح متعددة", price: 381, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572400/%D8%AA%D9%86%D8%AA%D9%86.png" },
-        { id: 14, name: "المجموعة 2 اودوبرفان روائح متعددة", price: 274, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572590/%D8%B4%D8%B3.png" },
-        { id: 15, name: "المجموعة 3 اودوبرفان روائح متعددة", price: 223, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572713/%D8%AA%D9%84%D8%A7.png" },
-        { id: 16, name: "مجموعة 4 اودوبرفان روائح متعددة", price: 200, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572804/%D9%8A%D8%A8%D8%A7%D8%A8%D9%84.png" }
+        { id: 1, category: 'care', name: "simply moist خصم 50% غسول الجسم باليوريا لمحاربة جفاف الجلد", price: 76, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562499/%D9%87%D9%86.png" },
+        { id: 2, category: 'care', name: "بيلا بلسم منظف يزيل المكياج والشوائب خصم 50%", price: 60, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562951/%D8%AA%D9%86%D9%86%D8%A7.png" },
+        { id: 3, category: 'care', name: "لين جل حلاقة نسائي خصم 50%", price: 84, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563103/%D8%A7%D9%84%D8%AA.png" },
+        { id: 4, category: 'perfumes', name: "MISKA جل معطر للجسم خصم 50%", price: 29.5, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563182/%D9%84%D8%A7%D8%AA.png" },
+        { id: 5, category: 'care', name: "بودي لوشن هيفن خصم 50%", price: 79, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563273/%D8%A7.png" },
+        { id: 6, category: 'care', name: "بيلا تنت للخدود والشفايف خصم 50%", price: 79, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563357/%D8%A8.png" },
+        { id: 7, category: 'care', name: "كريم مرطب باليوريا + سوفت سكين ماجيك بيلا", price: 110, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563697/%D9%83.png" },
+        { id: 8, category: 'care', name: "بودي لوشن واي اوت متعدد الاحجام خصم 50%", price: 82.5, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563775/%D8%A7%D8%A8.png" },
+        { id: 9, category: 'perfumes', name: "بلاش ميست سبراي معطر للشعر بالكبسولات العطرية", price: 80, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563852/%D8%A7%D8%AA.png" },
+        { id: 10, category: 'perfumes', name: "اودو برفان تندر نايت", price: 274, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563977/%D8%A7%D8%AB.png" },
+        { id: 11, category: 'sets', name: "مجموعة جولدن تاتش برفان + كريم مزيل لرائحة العرق + مخمرية للجسم", price: 339, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564542/%D8%A7%D8%A7%D8%A7.png" },
+        { id: 12, category: 'sets', name: "مجموعة بينك برفان + بودي لوشن", price: 205, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564812/%D8%AA%D9%86.png" },
+        { id: 13, category: 'sets', name: "مجموعة اودوبرفان روائح متعددة", price: 381, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572400/%D8%AA%D9%86%D8%AA%D9%86.png" },
+        { id: 14, category: 'sets', name: "المجموعة 2 اودوبرفان روائح متعددة", price: 274, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572590/%D8%B4%D8%B3.png" },
+        { id: 15, category: 'sets', name: "المجموعة 3 اودوبرفان روائح متعددة", price: 223, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572713/%D8%AA%D9%8ل%D8%A7.png" },
+        { id: 16, category: 'sets', name: "مجموعة 4 اودوبرفان روائح متعددة", price: 200, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572804/%D9%8A%D8%A8%D8%A7%D8%A8%D9%84.png" }
     ];
 
-    // استرجاع السلة من ذاكرة المتصفح إن وجدت
     let cart = JSON.parse(localStorage.getItem('nadara_cart')) || [];
+    let currentCategory = 'all';
 
-    function renderProducts() {
+    function renderProducts(itemsToRender = products) {
         const grid = document.getElementById('productsGrid');
         grid.innerHTML = '';
-        products.forEach(p => {
+        if (itemsToRender.length === 0) {
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #888; padding: 20px;">لا توجد منتجات تطابق بحثك.</div>';
+            return;
+        }
+        itemsToRender.forEach(p => {
             grid.innerHTML += `
                 <div class="product-card">
                     <img src="${p.img}" class="product-img">
@@ -124,6 +152,23 @@
                 </div>
             `;
         });
+    }
+
+    function filterCategory(cat, btn) {
+        currentCategory = cat;
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        filterProducts();
+    }
+
+    function filterProducts() {
+        const query = document.getElementById('searchInput').value.toLowerCase().trim();
+        const filtered = products.filter(p => {
+            const matchesCat = (currentCategory === 'all' || p.category === currentCategory);
+            const matchesSearch = p.name.toLowerCase().includes(query);
+            return matchesCat && matchesSearch;
+        });
+        renderProducts(filtered);
     }
 
     function addToCart(id) {
@@ -139,10 +184,8 @@
     }
 
     function updateCart() {
-        // حفظ السلة في الذاكرة المحلية
         localStorage.setItem('nadara_cart', JSON.stringify(cart));
 
-        // حساب إجمالي عدد القطع في الأيقونة بالهيدر
         const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
         document.getElementById('cartCount').innerText = totalCount;
         
@@ -198,31 +241,53 @@
         document.getElementById('cartSection').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function sendToWhatsApp() {
-        if (cart.length === 0) {
-            alert('سلة الشراء فارغة! قم بإضافة منتجات أولاً.');
-            return;
-        }
-
+    function buildOrderMessage() {
         const name = document.getElementById('name').value.trim();
         const phone = document.getElementById('phone').value.trim();
         const address = document.getElementById('address').value.trim();
 
         if (!name || !phone || !address) {
             alert('يرجى كتابة كافة البيانات المطلوبة (الاسم، رقم الهاتف، والعنوان)');
+            return null;
+        }
+
+        let itemsText = cart.map(i => `- ${i.name} (الكمية: ${i.quantity}) - ${i.price * i.quantity} ج.م`).join('\n');
+        let total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+
+        return `🛍️ *طلب جديد من متجر نضارة*\n\n📦 *المنتجات المطلوبة:*\n${itemsText}\n\n💰 *الإجمالي الكلي:* ${total} ج.م\n\n👤 *اسم العميل:* ${name}\n📞 *رقم الهاتف:* ${phone}\n📍 *العنوان:* ${address}`;
+    }
+
+    function sendToWhatsApp() {
+        if (cart.length === 0) {
+            alert('سلة الشراء فارغة! قم بإضافة منتجات أولاً.');
             return;
         }
 
-        let itemsText = cart.map(i => `- ${i.name} (الكمية: ${i.quantity}) - ${i.price * i.quantity} ج.م`).join('%0A');
-        let total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+        const rawText = buildOrderMessage();
+        if (!rawText) return;
 
         const myPhone = "201070328288"; 
-        const text = `🛍️ *طلب جديد من متجر نضارة*%0A%0A📦 *المنتجات المطلوبة:*%0A${itemsText}%0A%0A💰 *الإجمالي الكلي:* ${total} ج.م%0A%0A👤 *اسم العميل:* ${name}%0A📞 *رقم الهاتف:* ${phone}%0A📍 *العنوان:* ${address}`;
+        const encodedText = encodeURIComponent(rawText);
         
-        window.open(`https://wa.me/${myPhone}?text=${text}`, '_blank');
+        window.open(`https://wa.me/${myPhone}?text=${encodedText}`, '_blank');
     }
 
-    // تشغيل التطبيق وعرض المنتجات وتحديث السلة عند فتح الصفحة
+    function copyOrderDetails() {
+        if (cart.length === 0) {
+            alert('سلة الشراء فارغة!');
+            return;
+        }
+
+        const rawText = buildOrderMessage();
+        if (!rawText) return;
+
+        navigator.clipboard.writeText(rawText).then(() => {
+            alert('تم نسخ تفاصيل الطلب بنجاح! يمكنك إرسالها يدوياً عبر الواتساب.');
+        }).catch(() => {
+            alert('تعذر النسخ التلقائي، يرجى المحاولة مرة أخرى.');
+        });
+    }
+
     renderProducts();
     updateCart();
 </script>
