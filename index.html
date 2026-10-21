@@ -28,7 +28,11 @@
         /* سلة التسوق ونموذج الشراء */
         .cart-section { background: #fff; border-radius: 12px; padding: 20px; margin-top: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .cart-title { font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f0f0f0; gap: 10px; }
+        .cart-item-info { flex: 1; }
+        .quantity-controls { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
+        .qty-btn { background: #eee; border: none; width: 25px; height: 25px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .qty-btn:hover { background: #ddd; }
         .cart-total { font-size: 1.2rem; font-weight: bold; text-align: left; margin: 15px 0; color: #111; }
         
         /* نموذج إدخال البيانات */
@@ -36,12 +40,15 @@
         label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
         input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.95rem; }
         .checkout-btn { width: 100%; background: #25D366; color: #fff; border: none; padding: 14px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; }
+        
+        /* زر واتساب عائم */
+        .whatsapp-float { position: fixed; bottom: 20px; left: 20px; background: #25D366; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1000; text-decoration: none; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo">🛒 متجر نضارة </div>
+    <div class="logo">🛒 متجر نضارة</div>
     <div class="cart-icon" onclick="scrollToCart()">
         🛍️ <span class="cart-count" id="cartCount">0</span>
     </div>
@@ -78,10 +85,12 @@
     </div>
 </div>
 
+<!-- زر واتساب عائم -->
+<a href="https://wa.me/201070328288" class="whatsapp-float" target="_blank">💬</a>
+
 <script>
-    // قائمة المنتجات مع تصحيح الأرقام التعريفية (IDs) لتكون فريدة لكل منتج
     const products = [
-        { id: 1, name: "simply moist خصم 50%غسول الجسم باليوريا لمحاربة جفاف الجلد", price: 76, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562499/%D9%87%D9%86.png" },
+        { id: 1, name: "simply moist خصم 50% غسول الجسم باليوريا لمحاربة جفاف الجلد", price: 76, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562499/%D9%87%D9%86.png" },
         { id: 2, name: "بيلا بلسم منظف يزيل المكياج والشوائب خصم 50%", price: 60, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562951/%D8%AA%D9%86%D9%86%D8%A7.png" },
         { id: 3, name: "لين جل حلاقة نسائي خصم 50%", price: 84, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563103/%D8%A7%D9%84%D8%AA.png" },
         { id: 4, name: "MISKA جل معطر للجسم خصم 50%", price: 29.5, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563182/%D9%84%D8%A7%D8%AA.png" },
@@ -99,9 +108,9 @@
         { id: 16, name: "مجموعة 4 اودوبرفان روائح متعددة", price: 200, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572804/%D9%8A%D8%A8%D8%A7%D8%A8%D9%84.png" }
     ];
 
-    let cart = [];
+    // استرجاع السلة من ذاكرة المتصفح إن وجدت
+    let cart = JSON.parse(localStorage.getItem('nadara_cart')) || [];
 
-    // عرض المنتجات في الصفحة
     function renderProducts() {
         const grid = document.getElementById('productsGrid');
         grid.innerHTML = '';
@@ -117,16 +126,26 @@
         });
     }
 
-    // إضافة منتج للسلة
     function addToCart(id) {
-        const item = products.find(p => p.id === id);
-        cart.push(item);
+        const product = products.find(p => p.id === id);
+        const existingItem = cart.find(item => item.id === id);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ ...product, quantity: 1 });
+        }
         updateCart();
     }
 
-    // تحديث شكل السلة
     function updateCart() {
-        document.getElementById('cartCount').innerText = cart.length;
+        // حفظ السلة في الذاكرة المحلية
+        localStorage.setItem('nadara_cart', JSON.stringify(cart));
+
+        // حساب إجمالي عدد القطع في الأيقونة بالهيدر
+        const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById('cartCount').innerText = totalCount;
+        
         const cartItemsDiv = document.getElementById('cartItems');
         
         if (cart.length === 0) {
@@ -137,19 +156,39 @@
 
         cartItemsDiv.innerHTML = '';
         let total = 0;
+        
         cart.forEach((item, index) => {
-            total += item.price;
+            let itemTotal = item.price * item.quantity;
+            total += itemTotal;
             cartItemsDiv.innerHTML += `
                 <div class="cart-item">
-                    <span>${item.name}</span>
-                    <span><b>${item.price} ج.م</b> <button onclick="removeFromCart(${index})" style="background:red;color:#fff;border:none;padding:2px 6px;border-radius:4px;cursor:pointer;margin-right:5px;">X</button></span>
+                    <div class="cart-item-info">
+                        <div><b>${item.name}</b></div>
+                        <div style="font-size: 0.9rem; color: #666; margin-top: 3px;">${item.price} ج.م للقطعة</div>
+                        <div class="quantity-controls">
+                            <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
+                            <span><b>${item.quantity}</b></span>
+                            <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+                        </div>
+                    </div>
+                    <div style="text-align: left;">
+                        <div style="color: #25D366; font-weight: bold; margin-bottom: 5px;">${itemTotal} ج.م</div>
+                        <button onclick="removeFromCart(${index})" style="background: #e53e3e; color: #fff; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">حذف</button>
+                    </div>
                 </div>
             `;
         });
         document.getElementById('cartTotal').innerText = `الإجمالي: ${total} ج.م`;
     }
 
-    // حذف منتج من السلة
+    function changeQty(index, amount) {
+        cart[index].quantity += amount;
+        if (cart[index].quantity <= 0) {
+            cart.splice(index, 1);
+        }
+        updateCart();
+    }
+
     function removeFromCart(index) {
         cart.splice(index, 1);
         updateCart();
@@ -159,7 +198,6 @@
         document.getElementById('cartSection').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // إرسال الطلب عبر الواتساب
     function sendToWhatsApp() {
         if (cart.length === 0) {
             alert('سلة الشراء فارغة! قم بإضافة منتجات أولاً.');
@@ -175,16 +213,18 @@
             return;
         }
 
-        let itemsText = cart.map(i => `- ${i.name} (${i.price} ج.م)`).join('%0A');
-        let total = cart.reduce((sum, i) => sum + i.price, 0);
+        let itemsText = cart.map(i => `- ${i.name} (الكمية: ${i.quantity}) - ${i.price * i.quantity} ج.م`).join('%0A');
+        let total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
 
-        const myPhone = "201070328288"; // رقم الواتساب الخاص بك
-        const text = `🛍️ *طلب جديد من المتجر الإلكتروني*%0A%0A📦 *المنتجات المطلوبة:*%0A${itemsText}%0A%0A💰 *الإجمالي:* ${total} ج.م%0A%0A👤 *اسم العميل:* ${name}%0A📞 *رقم الهاتف:* ${phone}%0A📍 *العنوان:* ${address}`;
+        const myPhone = "201070328288"; 
+        const text = `🛍️ *طلب جديد من متجر نضارة*%0A%0A📦 *المنتجات المطلوبة:*%0A${itemsText}%0A%0A💰 *الإجمالي الكلي:* ${total} ج.م%0A%0A👤 *اسم العميل:* ${name}%0A📞 *رقم الهاتف:* ${phone}%0A📍 *العنوان:* ${address}`;
         
         window.open(`https://wa.me/${myPhone}?text=${text}`, '_blank');
     }
 
+    // تشغيل التطبيق وعرض المنتجات وتحديث السلة عند فتح الصفحة
     renderProducts();
+    updateCart();
 </script>
 
 </body>
