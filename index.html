@@ -57,7 +57,7 @@
 </head>
 <body>
 
-<div class="promo-banner">✨ خصومات تصل إلى 50% + شحن سريع لجميع المحافظات 🚚</div>
+<div class="promo-banner">✨ خصومات حصرية + شحن سريع لجميع المحافظات 🚚</div>
 
 <header>
     <div class="logo">🛒 متجر نضارة</div>
@@ -127,20 +127,21 @@
 <a href="https://wa.me/201070328288" class="whatsapp-float" target="_blank">💬</a>
 
 <script>
+    // تم إضافة خصم مستقل (discount) لكل منتج، يمكنك تعديل نسبته لكل عنصر بحرية
     const products = [
-        { id: 1, category: 'care', name: "simply moist غسول الجسم باليوريا", price: 76, oldPrice: 152, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562499/%D9%87%D9%86.png" },
-        { id: 2, category: 'care', name: "بيلا بلسم منظف يزيل المكياج", price: 60, oldPrice: 120, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562951/%D8%AA%D9%86%D9%86%D8%A7.png" },
-        { id: 3, category: 'care', name: "لين جل حلاقة نسائي", price: 84, oldPrice: 168, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563103/%D8%A7%D9%84%D8%AA.png" },
-        { id: 4, category: 'perfumes', name: "MISKA جل معطر للجسم", price: 29.5, oldPrice: 59, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563182/%D9%84%D8%A7%D8%AA.png" },
-        { id: 5, category: 'care', name: "بودي لوشن هيفن", price: 79, oldPrice: 158, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563273/%D8%A7.png" },
-        { id: 6, category: 'care', name: "بيلا تنت للخدود والشفايف", price: 79, oldPrice: 158, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563357/%D8%A8.png" },
-        { id: 7, category: 'care', name: "كريم مرطب باليوريا + سوفت سكين", price: 110, oldPrice: 180, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563697/%D9%83.png" },
-        { id: 8, category: 'care', name: "بودي لوشن واي اوت متعدد الاحجام", price: 82.5, oldPrice: 165, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563775/%D8%A7%D8%A8.png" },
-        { id: 9, category: 'perfumes', name: "بلاش ميست سبراي معطر للشعر", price: 80, oldPrice: 140, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563852/%D8%A7%D8%AA.png" },
-        { id: 10, category: 'perfumes', name: "اودو برفان تندر نايت", price: 274, oldPrice: 400, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563977/%D8%A7%D8%AB.png" },
-        { id: 11, category: 'sets', name: "مجموعة جولدن تاتش الكاملة", price: 339, oldPrice: 500, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564542/%D8%A7%D8%A7%D8%A7.png" },
-        { id: 12, category: 'sets', name: "مجموعة بينك برفان + بودي لوشن", price: 205, oldPrice: 320, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564812/%D8%AA%D9%86.png" },
-        { id: 13, category: 'sets', name: "مجموعة اودوبرفان روائح متعددة", price: 381, oldPrice: 600, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572400/%D8%AA%D9%86%D8%AA%D9%86.png" }
+        { id: 1, category: 'care', name: "simply moist غسول الجسم باليوريا", price: 76, oldPrice: 152, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562499/%D9%87%D9%86.png" },
+        { id: 2, category: 'care', name: "بيلا بلسم منظف يزيل المكياج", price: 60, oldPrice: 120, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562951/%D8%AA%D9%86%D9%86%D8%A7.png" },
+        { id: 3, category: 'care', name: "لين جل حلاقة نسائي", price: 84, oldPrice: 168, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563103/%D8%A7%D9%84%D8%AA.png" },
+        { id: 4, category: 'perfumes', name: "MISKA جل معطر للجسم", price: 29.5, oldPrice: 59, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563182/%D9%84%D8%A7%D8%AA.png" },
+        { id: 5, category: 'care', name: "بودي لوشن هيفن", price: 79, oldPrice: 158, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563273/%D8%A7.png" },
+        { id: 6, category: 'care', name: "بيلا تنت للخدود والشفايف", price: 79, oldPrice: 158, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563357/%D8%A8.png" },
+        { id: 7, category: 'care', name: "كريم مرطب باليوريا + سوفت سكين", price: 73, oldPrice: 147, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563697/%D9%83.png" },
+        { id: 8, category: 'care', name: "بودي لوشن واي اوت متعدد الاحجام", price: 82.5, oldPrice: 165, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563775/%D8%A7%D8%A8.png" },
+        { id: 9, category: 'perfumes', name: "بلاش ميست سبراي معطر للشعر", price: 80, oldPrice: 160, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563852/%D8%A7%D8%AA.png" },
+        { id: 10, category: 'perfumes', name: "اودو برفان تندر نايت", price: 274, oldPrice: 421, discount: 35, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563977/%D8%A7%D8%AB.png" },
+        { id: 11, category: 'sets', name: "مجموعة جولدن تاتش الكاملة", price: 339, oldPrice: 678, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564542/%D8%A7%D8%A7%D8%A7.png" },
+        { id: 12, category: 'sets', name: "مجموعة بينك برفان + بودي لوشن", price: 205, oldPrice: 407, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564812/%D8%AA%D9%86.png" },
+        { id: 13, category: 'sets', name: "مجموعة اودوبرفان روائح متعددة", price: 381, oldPrice: 763, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572400/%D8%AA%D9%86%D8%AA%D9%86.png" }
     ];
 
     const shippingRates = { cairo: 35, alex: 45, upper: 60 };
@@ -155,14 +156,17 @@
             return;
         }
         itemsToRender.forEach(p => {
+            const badgeHTML = p.discount > 0 ? `<span class="badge">خصم ${p.discount}%</span>` : '';
+            const oldPriceHTML = p.discount > 0 ? `<span class="old-price">${p.oldPrice} ج.م</span>` : '';
+
             grid.innerHTML += `
                 <div class="product-card">
-                    <span class="badge">خصم 50%</span>
+                    ${badgeHTML}
                     <img src="${p.img}" class="product-img">
                     <div class="product-title">${p.name}</div>
                     <div class="price-container">
                         <span class="product-price">${p.price} ج.م</span>
-                        <span class="old-price">${p.oldPrice} ج.م</span>
+                        ${oldPriceHTML}
                     </div>
                     <button class="add-btn" onclick="addToCart(${p.id})">إضافة إلى السلة 🛒</button>
                 </div>
