@@ -8,10 +8,8 @@
         * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; }
         body { background-color: #f8f9fa; color: #333; padding-bottom: 80px; }
         
-        /* شريط الإعلانات العلوي */
         .promo-banner { background: #111; color: #fff; text-align: center; padding: 8px 10px; font-size: 0.85rem; font-weight: bold; }
 
-        /* الهيدر */
         header { background: #fff; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .logo { font-size: 1.3rem; font-weight: bold; color: #111; }
         .cart-icon { position: relative; cursor: pointer; font-size: 1.4rem; }
@@ -19,42 +17,41 @@
 
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
         
-        /* أدوات البحث والفلترة */
         .controls-section { margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; }
-        .search-input { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95rem; outline: none; transition: 0.2s; }
-        .search-input:focus { border-color: #25D366; box-shadow: 0 0 5px rgba(37, 211, 102, 0.2); }
+        .search-input { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95rem; outline: none; }
+        .search-input:focus { border-color: #25D366; }
         
         .categories { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; }
-        .cat-btn { background: #fff; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: 0.2s; }
+        .cat-btn { background: #fff; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
         .cat-btn.active, .cat-btn:hover { background: #25D366; color: #fff; border-color: #25D366; }
 
-        /* شبكة المنتجات */
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .product-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 15px; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 15px; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        .badge { position: absolute; top: 10px; right: 10px; background: #e53e3e; color: #fff; font-size: 0.7rem; font-weight: bold; padding: 3px 8px; border-radius: 12px; }
         .product-img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
         .product-title { font-size: 0.95rem; margin-bottom: 8px; font-weight: bold; line-height: 1.4; }
-        .product-price { color: #25D366; font-size: 1.1rem; font-weight: bold; margin-bottom: 12px; }
+        .price-container { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
+        .product-price { color: #25D366; font-size: 1.1rem; font-weight: bold; }
+        .old-price { color: #888; text-decoration: line-through; font-size: 0.85rem; }
         .add-btn { background: #25D366; color: #fff; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; }
         .add-btn:hover { background: #1ebc57; }
 
-        /* سلة التسوق ونموذج الشراء */
         .cart-section { background: #fff; border-radius: 12px; padding: 20px; margin-top: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .cart-title { font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
         .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f0f0f0; gap: 10px; }
         .cart-item-info { flex: 1; }
         .quantity-controls { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
         .qty-btn { background: #eee; border: none; width: 25px; height: 25px; border-radius: 4px; font-weight: bold; cursor: pointer; }
-        .qty-btn:hover { background: #ddd; }
-        .cart-total { font-size: 1.2rem; font-weight: bold; text-align: left; margin: 15px 0; color: #111; }
+        .cart-summary { background: #f9f9f9; padding: 12px; border-radius: 8px; margin: 15px 0; }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.95rem; }
+        .summary-row.total { font-size: 1.1rem; font-weight: bold; color: #111; border-top: 1px solid #ddd; padding-top: 8px; margin-top: 8px; }
         
-        /* نموذج إدخال البيانات */
         .form-group { margin-bottom: 12px; text-align: right; }
         label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
-        input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.95rem; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.95rem; background: #fff; }
         .checkout-btn { width: 100%; background: #25D366; color: #fff; border: none; padding: 14px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; }
         .copy-btn { width: 100%; background: #007bff; color: #fff; border: none; padding: 10px; font-size: 0.95rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 8px; }
 
-        /* زر واتساب عائم */
         .whatsapp-float { position: fixed; bottom: 20px; left: 20px; background: #25D366; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1000; text-decoration: none; }
     </style>
 </head>
@@ -80,16 +77,19 @@
         </div>
     </div>
 
-    <!-- قسم عرض المنتجات -->
     <div class="products-grid" id="productsGrid"></div>
 
-    <!-- قسم السلة والطلب -->
     <div class="cart-section" id="cartSection">
         <h3 class="cart-title">🛍️ سلة الشراء الخاص بك</h3>
         <div id="cartItems">سلة الشراء فارغة حالياً.</div>
-        <div class="cart-total" id="cartTotal">الإجمالي: 0 ج.م</div>
+        
+        <div class="cart-summary">
+            <div class="summary-row"><span>إجمالي المنتجات:</span><span id="subTotal">0 ج.م</span></div>
+            <div class="summary-row"><span>مصاريف الشحن:</span><span id="shippingFee">0 ج.م</span></div>
+            <div class="summary-row total"><span>الإجمالي الكلي:</span><span id="grandTotal">0 ج.م</span></div>
+        </div>
 
-        <h3 class="cart-title" style="margin-top: 25px;">📝 بيانات التوصيل</h3>
+        <h3 class="cart-title" style="margin-top: 25px;">📝 بيانات التوصيل والدفع</h3>
         <form id="orderForm">
             <div class="form-group">
                 <label>الاسم بالكامل *</label>
@@ -100,8 +100,23 @@
                 <input type="tel" id="phone" placeholder="01xxxxxxxxx" required>
             </div>
             <div class="form-group">
+                <label>المحافظة (لتحديد الشحن) *</label>
+                <select id="governorate" onchange="updateCart()" required>
+                    <option value="cairo">القاهرة والجيزة (35 ج.م)</option>
+                    <option value="alex">الإسكندرية والوجه البحري (45 ج.م)</option>
+                    <option value="upper">الصعيد والمحافظات النائية (60 ج.م)</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label>العنوان بالتفصيل *</label>
-                <input type="text" id="address" placeholder="المحافظة - المدينة - الشارع" required>
+                <input type="text" id="address" placeholder="المدينة - الشارع - رقم المبنى" required>
+            </div>
+            <div class="form-group">
+                <label>طريقة الدفع المفضلة *</label>
+                <select id="paymentMethod">
+                    <option value="cod">الدفع نقداً عند الاستلام</option>
+                    <option value="vfcash">تحويل فودافون كاش (01070328288)</option>
+                </select>
             </div>
             <button type="button" class="checkout-btn" onclick="sendToWhatsApp()">إتمام الطلب عبر واتساب 💬</button>
             <button type="button" class="copy-btn" onclick="copyOrderDetails()">📋 نسخ تفاصيل الطلب احتياطياً</button>
@@ -109,29 +124,26 @@
     </div>
 </div>
 
-<!-- زر واتساب عائم -->
 <a href="https://wa.me/201070328288" class="whatsapp-float" target="_blank">💬</a>
 
 <script>
     const products = [
-        { id: 1, category: 'care', name: "simply moist خصم 50% غسول الجسم باليوريا لمحاربة جفاف الجلد", price: 76, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562499/%D9%87%D9%86.png" },
-        { id: 2, category: 'care', name: "بيلا بلسم منظف يزيل المكياج والشوائب خصم 50%", price: 60, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562951/%D8%AA%D9%86%D9%86%D8%A7.png" },
-        { id: 3, category: 'care', name: "لين جل حلاقة نسائي خصم 50%", price: 84, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563103/%D8%A7%D9%84%D8%AA.png" },
-        { id: 4, category: 'perfumes', name: "MISKA جل معطر للجسم خصم 50%", price: 29.5, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563182/%D9%84%D8%A7%D8%AA.png" },
-        { id: 5, category: 'care', name: "بودي لوشن هيفن خصم 50%", price: 79, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563273/%D8%A7.png" },
-        { id: 6, category: 'care', name: "بيلا تنت للخدود والشفايف خصم 50%", price: 79, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563357/%D8%A8.png" },
-        { id: 7, category: 'care', name: "كريم مرطب باليوريا + سوفت سكين ماجيك بيلا", price: 110, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563697/%D9%83.png" },
-        { id: 8, category: 'care', name: "بودي لوشن واي اوت متعدد الاحجام خصم 50%", price: 82.5, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563775/%D8%A7%D8%A8.png" },
-        { id: 9, category: 'perfumes', name: "بلاش ميست سبراي معطر للشعر بالكبسولات العطرية", price: 80, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563852/%D8%A7%D8%AA.png" },
-        { id: 10, category: 'perfumes', name: "اودو برفان تندر نايت", price: 274, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563977/%D8%A7%D8%AB.png" },
-        { id: 11, category: 'sets', name: "مجموعة جولدن تاتش برفان + كريم مزيل لرائحة العرق + مخمرية للجسم", price: 339, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564542/%D8%A7%D8%A7%D8%A7.png" },
-        { id: 12, category: 'sets', name: "مجموعة بينك برفان + بودي لوشن", price: 205, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564812/%D8%AA%D9%86.png" },
-        { id: 13, category: 'sets', name: "مجموعة اودوبرفان روائح متعددة", price: 381, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572400/%D8%AA%D9%86%D8%AA%D9%86.png" },
-        { id: 14, category: 'sets', name: "المجموعة 2 اودوبرفان روائح متعددة", price: 274, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572590/%D8%B4%D8%B3.png" },
-        { id: 15, category: 'sets', name: "المجموعة 3 اودوبرفان روائح متعددة", price: 223, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572713/%D8%AA%D9%8ل%D8%A7.png" },
-        { id: 16, category: 'sets', name: "مجموعة 4 اودوبرفان روائح متعددة", price: 200, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572804/%D9%8A%D8%A8%D8%A7%D8%A8%D9%84.png" }
+        { id: 1, category: 'care', name: "simply moist غسول الجسم باليوريا", price: 76, oldPrice: 152, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562499/%D9%87%D9%86.png" },
+        { id: 2, category: 'care', name: "بيلا بلسم منظف يزيل المكياج", price: 60, oldPrice: 120, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792562951/%D8%AA%D9%86%D9%86%D8%A7.png" },
+        { id: 3, category: 'care', name: "لين جل حلاقة نسائي", price: 84, oldPrice: 168, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563103/%D8%A7%D9%84%D8%AA.png" },
+        { id: 4, category: 'perfumes', name: "MISKA جل معطر للجسم", price: 29.5, oldPrice: 59, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563182/%D9%84%D8%A7%D8%AA.png" },
+        { id: 5, category: 'care', name: "بودي لوشن هيفن", price: 79, oldPrice: 158, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563273/%D8%A7.png" },
+        { id: 6, category: 'care', name: "بيلا تنت للخدود والشفايف", price: 79, oldPrice: 158, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563357/%D8%A8.png" },
+        { id: 7, category: 'care', name: "كريم مرطب باليوريا + سوفت سكين", price: 110, oldPrice: 180, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563697/%D9%83.png" },
+        { id: 8, category: 'care', name: "بودي لوشن واي اوت متعدد الاحجام", price: 82.5, oldPrice: 165, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563775/%D8%A7%D8%A8.png" },
+        { id: 9, category: 'perfumes', name: "بلاش ميست سبراي معطر للشعر", price: 80, oldPrice: 140, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563852/%D8%A7%D8%AA.png" },
+        { id: 10, category: 'perfumes', name: "اودو برفان تندر نايت", price: 274, oldPrice: 400, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563977/%D8%A7%D8%AB.png" },
+        { id: 11, category: 'sets', name: "مجموعة جولدن تاتش الكاملة", price: 339, oldPrice: 500, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564542/%D8%A7%D8%A7%D8%A7.png" },
+        { id: 12, category: 'sets', name: "مجموعة بينك برفان + بودي لوشن", price: 205, oldPrice: 320, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564812/%D8%AA%D9%86.png" },
+        { id: 13, category: 'sets', name: "مجموعة اودوبرفان روائح متعددة", price: 381, oldPrice: 600, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792572400/%D8%AA%D9%86%D8%AA%D9%86.png" }
     ];
 
+    const shippingRates = { cairo: 35, alex: 45, upper: 60 };
     let cart = JSON.parse(localStorage.getItem('nadara_cart')) || [];
     let currentCategory = 'all';
 
@@ -145,9 +157,13 @@
         itemsToRender.forEach(p => {
             grid.innerHTML += `
                 <div class="product-card">
+                    <span class="badge">خصم 50%</span>
                     <img src="${p.img}" class="product-img">
                     <div class="product-title">${p.name}</div>
-                    <div class="product-price">${p.price} ج.م</div>
+                    <div class="price-container">
+                        <span class="product-price">${p.price} ج.م</span>
+                        <span class="old-price">${p.oldPrice} ج.م</span>
+                    </div>
                     <button class="add-btn" onclick="addToCart(${p.id})">إضافة إلى السلة 🛒</button>
                 </div>
             `;
@@ -174,7 +190,6 @@
     function addToCart(id) {
         const product = products.find(p => p.id === id);
         const existingItem = cart.find(item => item.id === id);
-        
         if (existingItem) {
             existingItem.quantity += 1;
         } else {
@@ -185,24 +200,27 @@
 
     function updateCart() {
         localStorage.setItem('nadara_cart', JSON.stringify(cart));
-
         const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
         document.getElementById('cartCount').innerText = totalCount;
         
         const cartItemsDiv = document.getElementById('cartItems');
+        const govSelect = document.getElementById('governorate').value;
+        const shipping = cart.length > 0 ? (shippingRates[govSelect] || 35) : 0;
         
         if (cart.length === 0) {
             cartItemsDiv.innerHTML = 'سلة الشراء فارغة حالياً.';
-            document.getElementById('cartTotal').innerText = 'الإجمالي: 0 ج.م';
+            document.getElementById('subTotal').innerText = '0 ج.م';
+            document.getElementById('shippingFee').innerText = '0 ج.م';
+            document.getElementById('grandTotal').innerText = '0 ج.م';
             return;
         }
 
         cartItemsDiv.innerHTML = '';
-        let total = 0;
+        let subtotal = 0;
         
         cart.forEach((item, index) => {
             let itemTotal = item.price * item.quantity;
-            total += itemTotal;
+            subtotal += itemTotal;
             cartItemsDiv.innerHTML += `
                 <div class="cart-item">
                     <div class="cart-item-info">
@@ -221,14 +239,15 @@
                 </div>
             `;
         });
-        document.getElementById('cartTotal').innerText = `الإجمالي: ${total} ج.م`;
+
+        document.getElementById('subTotal').innerText = `${subtotal} ج.م`;
+        document.getElementById('shippingFee').innerText = `${shipping} ج.م`;
+        document.getElementById('grandTotal').innerText = `${subtotal + shipping} ج.م`;
     }
 
     function changeQty(index, amount) {
         cart[index].quantity += amount;
-        if (cart[index].quantity <= 0) {
-            cart.splice(index, 1);
-        }
+        if (cart[index].quantity <= 0) cart.splice(index, 1);
         updateCart();
     }
 
@@ -245,6 +264,10 @@
         const name = document.getElementById('name').value.trim();
         const phone = document.getElementById('phone').value.trim();
         const address = document.getElementById('address').value.trim();
+        const govSelect = document.getElementById('governorate');
+        const govText = govSelect.options[govSelect.selectedIndex].text;
+        const paySelect = document.getElementById('paymentMethod');
+        const payText = paySelect.options[paySelect.selectedIndex].text;
 
         if (!name || !phone || !address) {
             alert('يرجى كتابة كافة البيانات المطلوبة (الاسم، رقم الهاتف، والعنوان)');
@@ -252,9 +275,11 @@
         }
 
         let itemsText = cart.map(i => `- ${i.name} (الكمية: ${i.quantity}) - ${i.price * i.quantity} ج.م`).join('\n');
-        let total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+        let subtotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+        let shipping = shippingRates[govSelect.value] || 35;
+        let total = subtotal + shipping;
 
-        return `🛍️ *طلب جديد من متجر نضارة*\n\n📦 *المنتجات المطلوبة:*\n${itemsText}\n\n💰 *الإجمالي الكلي:* ${total} ج.م\n\n👤 *اسم العميل:* ${name}\n📞 *رقم الهاتف:* ${phone}\n📍 *العنوان:* ${address}`;
+        return `🛍️ *طلب جديد من متجر نضارة*\n\n📦 *المنتجات المطلوبة:*\n${itemsText}\n\n💵 *إجمالي المنتجات:* ${subtotal} ج.م\n🚚 *مصاريف الشحن:* ${shipping} ج.م (${govText})\n💰 *الإجمالي الكلي:* ${total} ج.م\n💳 *طريقة الدفع:* ${payText}\n\n👤 *اسم العميل:* ${name}\n📞 *رقم الهاتف:* ${phone}\n📍 *العنوان:* ${address}`;
     }
 
     function sendToWhatsApp() {
@@ -267,9 +292,7 @@
         if (!rawText) return;
 
         const myPhone = "201070328288"; 
-        const encodedText = encodeURIComponent(rawText);
-        
-        window.open(`https://wa.me/${myPhone}?text=${encodedText}`, '_blank');
+        window.open(`https://wa.me/${myPhone}?text=${encodeURIComponent(rawText)}`, '_blank');
     }
 
     function copyOrderDetails() {
@@ -282,9 +305,7 @@
         if (!rawText) return;
 
         navigator.clipboard.writeText(rawText).then(() => {
-            alert('تم نسخ تفاصيل الطلب بنجاح! يمكنك إرسالها يدوياً عبر الواتساب.');
-        }).catch(() => {
-            alert('تعذر النسخ التلقائي، يرجى المحاولة مرة أخرى.');
+            alert('تم نسخ تفاصيل الطلب بنجاح!');
         });
     }
 
