@@ -53,6 +53,29 @@
         .copy-btn { width: 100%; background: #007bff; color: #fff; border: none; padding: 10px; font-size: 0.95rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 8px; }
 
         .whatsapp-float { position: fixed; bottom: 20px; left: 20px; background: #25D366; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1000; text-decoration: none; }
+
+        /* Toast Notification Style */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #25D366;
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-weight: bold;
+            font-size: 0.9rem;
+            z-index: 2000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
@@ -126,6 +149,7 @@
 </div>
 
 <a href="https://wa.me/201070328288" class="whatsapp-float" target="_blank">💬</a>
+<div id="toast" class="toast">✅ تمت إضافة المنتج إلى السلة</div>
 
 <script>
     const products = [
@@ -136,7 +160,7 @@
         { id: 5, category: 'care', name: "بودي لوشن هيفن", price: 79, oldPrice: 158, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563273/%D8%A7.png" },
         { id: 6, category: 'care', name: "بيلا تنت للخدود والشفايف", price: 79, oldPrice: 158, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563357/%D8%A8.png" },
         { id: 7, category: 'care', name: "كريم مرطب باليوريا + سوفت سكين", price: 73, oldPrice: 147, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563697/%D9%83.png" },
-        { id: 8, category: 'care', name: "بودي لوشن واي اوت متعدد الاحجام", price: 82.5, oldPrice: 165, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563775/%D8%A7%D8%A8.png" },
+        { id: 8, category: 'care', name: "بودي لوشن واي اوت متعدد الاحجام", price: 82.5, oldPrice: 165, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792563775/%D8%A8.png" },
         { id: 9, category: 'perfumes', name: "بلاش ميست سبراي معطر للشعر", price: 80, oldPrice: 160, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792581453/%D8%B3%D9%8A.png" },
         { id: 10, category: 'perfumes', name: "اودو برفان تندر نايت", price: 274, oldPrice: 421, discount: 35, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792581593/%D8%B6%D8%B5.png" },
         { id: 11, category: 'sets', name: "مجموعة جولدن تاتش الكاملة", price: 339, oldPrice: 678, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792564542/%D8%A7%D8%A7%D8%A7.png" },
@@ -166,6 +190,15 @@
     const shippingRates = { cairo: 60, alex: 60, upper: 60 };
     let cart = JSON.parse(localStorage.getItem('nadara_cart')) || [];
     let currentCategory = 'all';
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.innerText = message;
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 2000);
+    }
 
     function renderProducts(itemsToRender = products) {
         const grid = document.getElementById('productsGrid');
@@ -204,7 +237,7 @@
         const query = document.getElementById('searchInput').value.toLowerCase().trim();
         const filtered = products.filter(p => {
             const matchesCat = (currentCategory === 'all' || p.category === currentCategory);
-            const matchesSearch = p.name.toLowerCase().includes(query);
+            const matchesSearch = p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query);
             return matchesCat && matchesSearch;
         });
         renderProducts(filtered);
@@ -219,6 +252,7 @@
             cart.push({ ...product, quantity: 1 });
         }
         updateCart();
+        showToast(`✅ تمت إضافة ${product.name} إلى السلة`);
     }
 
     function updateCart() {
@@ -316,6 +350,11 @@
 
         const myPhone = "201070328288"; 
         window.open(`https://wa.me/${myPhone}?text=${encodeURIComponent(rawText)}`, '_blank');
+
+        // Clear cart after sending order
+        cart = [];
+        updateCart();
+        document.getElementById('orderForm').reset();
     }
 
     function copyOrderDetails() {
