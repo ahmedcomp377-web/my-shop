@@ -5,77 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>متجر نضارة</title>
     <style>
-        * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; }
-        body { background-color: #f8f9fa; color: #333; padding-bottom: 80px; }
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --text-sub: #666666;
+            --border-color: #dddddd;
+            --header-bg: #ffffff;
+            --summary-bg: #f9f9f9;
+        }
+
+        body.dark-mode {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #f1f1f1;
+            --text-sub: #aaa;
+            --border-color: #333333;
+            --header-bg: #1a1a1a;
+            --summary-bg: #252525;
+        }
+
+        * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; transition: background-color 0.3s, color 0.3s; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 80px; }
         
         .promo-banner { background: #111; color: #fff; text-align: center; padding: 8px 10px; font-size: 0.85rem; font-weight: bold; }
 
-        header { background: #fff; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 1.3rem; font-weight: bold; color: #111; }
+        header { background: var(--header-bg); padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border-color); }
+        .logo { font-size: 1.3rem; font-weight: bold; color: var(--text-color); }
+        
+        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .theme-toggle { background: none; border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 1rem; color: var(--text-color); }
         .cart-icon { position: relative; cursor: pointer; font-size: 1.4rem; }
         .cart-count { position: absolute; top: -8px; left: -10px; background: #e53e3e; color: #fff; font-size: 0.75rem; font-weight: bold; padding: 2px 6px; border-radius: 50%; }
 
         .container { max-width: 1000px; margin: 20px auto; padding: 0 15px; }
         
         .controls-section { margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; }
-        .search-input { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.95rem; outline: none; }
+        .search-input { width: 100%; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95rem; outline: none; background: var(--card-bg); color: var(--text-color); }
         .search-input:focus { border-color: #25D366; }
         
         .categories { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; }
-        .cat-btn { background: #fff; border: 1px solid #ddd; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer; white-space: nowrap; }
+        .cat-btn { background: var(--card-bg); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer; white-space: nowrap; color: var(--text-color); }
         .cat-btn.active, .cat-btn:hover { background: #25D366; color: #fff; border-color: #25D366; }
 
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
-        .product-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 15px; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
-        .badge { position: absolute; top: 10px; right: 10px; background: #e53e3e; color: #fff; font-size: 0.7rem; font-weight: bold; padding: 3px 8px; border-radius: 12px; }
-        .product-img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
-        .product-title { font-size: 0.95rem; margin-bottom: 8px; font-weight: bold; line-height: 1.4; }
+        .product-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 15px; display: flex; flex-direction: column; justify-content: space-between; position: relative; border: 1px solid var(--border-color); }
+        .badge { position: absolute; top: 10px; right: 10px; background: #e53e3e; color: #fff; font-size: 0.7rem; font-weight: bold; padding: 3px 8px; border-radius: 12px; z-index: 2; }
+        .product-img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; cursor: zoom-in; }
+        .product-title { font-size: 0.95rem; margin-bottom: 8px; font-weight: bold; line-height: 1.4; color: var(--text-color); }
         .price-container { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
         .product-price { color: #25D366; font-size: 1.1rem; font-weight: bold; }
-        .old-price { color: #888; text-decoration: line-through; font-size: 0.85rem; }
+        .old-price { color: var(--text-sub); text-decoration: line-through; font-size: 0.85rem; }
         .add-btn { background: #25D366; color: #fff; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; transition: 0.2s; }
         .add-btn:hover { background: #1ebc57; }
 
-        .cart-section { background: #fff; border-radius: 12px; padding: 20px; margin-top: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .cart-title { font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #f0f0f0; gap: 10px; }
+        .cart-section { background: var(--card-bg); border-radius: 12px; padding: 20px; margin-top: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border-color); }
+        .cart-title { font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; color: var(--text-color); }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border-color); gap: 10px; }
         .cart-item-info { flex: 1; }
         .quantity-controls { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
-        .qty-btn { background: #eee; border: none; width: 25px; height: 25px; border-radius: 4px; font-weight: bold; cursor: pointer; }
-        .cart-summary { background: #f9f9f9; padding: 12px; border-radius: 8px; margin: 15px 0; }
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.95rem; }
-        .summary-row.total { font-size: 1.1rem; font-weight: bold; color: #111; border-top: 1px solid #ddd; padding-top: 8px; margin-top: 8px; }
+        .qty-btn { background: var(--summary-bg); border: 1px solid var(--border-color); color: var(--text-color); width: 25px; height: 25px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        .cart-summary { background: var(--summary-bg); padding: 12px; border-radius: 8px; margin: 15px 0; border: 1px solid var(--border-color); }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.95rem; color: var(--text-color); }
+        .summary-row.total { font-size: 1.1rem; font-weight: bold; color: var(--text-color); border-top: 1px solid var(--border-color); padding-top: 8px; margin-top: 8px; }
         
         .form-group { margin-bottom: 12px; text-align: right; }
-        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
-        input, select { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.95rem; background: #fff; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; color: var(--text-color); }
+        input, select { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.95rem; background: var(--card-bg); color: var(--text-color); }
         .checkout-btn { width: 100%; background: #25D366; color: #fff; border: none; padding: 14px; font-size: 1.1rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; }
         .copy-btn { width: 100%; background: #007bff; color: #fff; border: none; padding: 10px; font-size: 0.95rem; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 8px; }
 
+        /* Trust Badges */
+        .trust-badges { display: flex; justify-content: space-around; gap: 10px; margin-top: 20px; padding: 12px; background: var(--summary-bg); border-radius: 8px; border: 1px solid var(--border-color); text-align: center; font-size: 0.82rem; font-weight: bold; color: var(--text-color); }
+
         .whatsapp-float { position: fixed; bottom: 20px; left: 20px; background: #25D366; color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 1000; text-decoration: none; }
 
-        /* Toast Notification Style */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #25D366;
-            color: #fff;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            font-weight: bold;
-            font-size: 0.9rem;
-            z-index: 2000;
-            opacity: 0;
-            transform: translateY(-20px);
-            transition: all 0.3s ease;
-            pointer-events: none;
-        }
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        /* Back to top button */
+        .back-to-top { position: fixed; bottom: 20px; right: 20px; background: #111; color: #fff; width: 45px; height: 45px; border-radius: 50%; display: none; justify-content: center; align-items: center; font-size: 1.2rem; cursor: pointer; z-index: 1000; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+
+        /* Toast Notification */
+        .toast { position: fixed; top: 20px; right: 20px; background-color: #25D366; color: #fff; padding: 12px 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-weight: bold; font-size: 0.9rem; z-index: 2000; opacity: 0; transform: translateY(-20px); transition: all 0.3s ease; pointer-events: none; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+
+        /* Lightbox Modal */
+        .modal { display: none; position: fixed; z-index: 3000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; }
+        .modal-img { max-width: 90%; max-height: 80%; border-radius: 12px; }
+        .modal-close { position: absolute; top: 20px; right: 25px; color: #fff; font-size: 2rem; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -84,8 +99,11 @@
 
 <header>
     <div class="logo">🛒 متجر نضارة</div>
-    <div class="cart-icon" onclick="scrollToCart()">
-        🛍️ <span class="cart-count" id="cartCount">0</span>
+    <div class="header-actions">
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        <div class="cart-icon" onclick="scrollToCart()">
+            🛍️ <span class="cart-count" id="cartCount">0</span>
+        </div>
     </div>
 </header>
 
@@ -145,11 +163,23 @@
             <button type="submit" class="checkout-btn">إتمام الطلب عبر واتساب 💬</button>
             <button type="button" class="copy-btn" onclick="copyOrderDetails()">📋 نسخ تفاصيل الطلب احتياطياً</button>
         </form>
+
+        <div class="trust-badges">
+            <div>💯 منتجات أصلية 100%</div>
+            <div>🔍 معاينة قبل الاستلام</div>
+            <div>🚚 شحن سريع وآمن</div>
+        </div>
     </div>
 </div>
 
 <a href="https://wa.me/201070328288" class="whatsapp-float" target="_blank">💬</a>
+<button class="back-to-top" id="backToTop" onclick="scrollToTop()">⬆️</button>
 <div id="toast" class="toast">✅ تمت إضافة المنتج إلى السلة</div>
+
+<div class="modal" id="imageModal" onclick="closeModal()">
+    <span class="modal-close">&times;</span>
+    <img class="modal-img" id="modalImg">
+</div>
 
 <script>
     const products = [
@@ -174,37 +204,69 @@
         { id: 19, category: 'men', name: "اودوبرفان بوم", price: 316, oldPrice: 633, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792653655/12345.png" },
         { id: 20, category: 'men', name: "اودوبرفان كافلير + توباكو لوكس", price: 440, oldPrice: 1033, discount: 60, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792595809/8.png" },
         { id: 21, category: 'men', name: "اودوبرفان إلبت", price: 139, oldPrice: 278, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792595561/7.png" },
-        { id: 22, category: 'care', name: "مجموعة جميلة للعناية بالبشرة (ماسك الطمي + كريم ترطيب للايدي + ماسك سكرب طمي للجسم + مخمرية تنعيم وترطيب) (متاح شراء كل علي حدة)", price: 238, oldPrice: 476, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792596105/9.png" },
-        { id: 23, category: 'care', name: "مجموعة جميلة للعناية بالبشرة (كريم ماء الورد + ماسك لإزالة الرئوس السوداء + سيرم لترطيب وتفتيح الوجه + ماء ورد) (متاح شراء كل علي حدة)", price: 319, oldPrice: 638, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792596814/213.png" },
-        { id: 24, category: 'perfumes', name: "مخمرية الجسم للعروسة لنعومة وتعطير متعددة الانواع (متاح شراء كل نوع وحدة)", price: 42, oldPrice: 84, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792653956/%D8%B3%D8%B4%D9%8A%D8%AA.png" },
+        { id: 22, category: 'care', name: "مجموعة جميلة للعناية بالبشرة", price: 238, oldPrice: 476, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792596105/9.png" },
+        { id: 23, category: 'care', name: "مجموعة جميلة للعناية بالبشرة والوجه", price: 319, oldPrice: 638, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792596814/213.png" },
+        { id: 24, category: 'perfumes', name: "مخمرية الجسم للعروسة لنعومة وتعطير", price: 42, oldPrice: 84, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792653956/%D8%B3%D8%B4%D9%8A%D8%AA.png" },
         { id: 25, category: 'care', name: "ماسك الفحم للتخلص من الرؤوس السوداء", price: 56, oldPrice: 112, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792613996/%D9%84%D8%AA%D8%BA%D8%B9.png" },
         { id: 26, category: 'care', name: "كريم تفتيح المناطق الداكنة والحساسة", price: 35, oldPrice: 70, discount: 50, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792614086/%D8%A7%D9%84.png" },
-        { id: 27, category: 'perfumes', name: "مخمرية العروسة لعطير وتنعيم الشعر", price: 61, oldPrice: 95, discount: 35, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792614175/%D8%A7%D9%84%D8%AA%D8%BA.png" },
+        { id: 27, category: 'perfumes', name: "مخمرية العروسة لتعطير وتنعيم الشعر", price: 61, oldPrice: 95, discount: 35, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792614175/%D8%A7%D9%84%D8%AA%D8%BA.png" },
         { id: 28, category: 'perfumes', name: "مخمرية العود الملكي", price: 58, oldPrice: 90, discount: 35, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792614276/%D8%A8%D9%84%D8%A7%D8%A8%D9%84%D8%A7%D8%A8.png" },
-        { id: 29, category: 'care', name: "كريم مرطب للجلد ومهدئ للحروف", price: 45, oldPrice: 70, discount: 35, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792614471/%D8%A8%D9%8A%D9%8A%D9%84%D8%A8%D9%84.png" },
+        { id: 29, category: 'care', name: "كريم مرطب للجلد ومهدئ للحروق", price: 45, oldPrice: 70, discount: 35, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792614471/%D8%A8%D9%8A%D9%8A%D9%84%D8%A8%D9%84.png" },
         { id: 30, category: 'perfumes', name: "مخمرية الجوري", price: 58, oldPrice: 90, discount: 35, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792614701/456456.png" },
-        { id: 31, category: 'care', name: "العروسة كريم كعب الغزال للون وردي ", price: 58, oldPrice: 89, discount: 35, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792660671/09876%D9%81%D9%81.png" },
-        { id: 32, category: 'care', name: "ماسك الذهب للبشرة", price: 88, oldPrice: 135, discount: 35, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792660856/%D8%AD%D8%AC%D8%AE%D8%AD%D8%AE%D9%83%D9%85%D9%86%D9%83.png" },
+        { id: 31, category: 'care', name: "العروسة كريم كعب الغزال للون وردي", price: 58, oldPrice: 89, discount: 35, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792660671/09876%D9%81%D9%81.png" },
+        { id: 32, category: 'care', name: "ماسك الذهب للبشرة", price: 88, oldPrice: 135, discount: 35, img: "https://res.cloudinary.com/orajfcmk/image/upload/v1792660856/%D8%AD%D8%AC%D8%AE%D8%AD%D8%AE%D9%83%D9%85%D9%86%D9%83.png" }
     ];
 
     const shippingRates = { cairo: 60, alex: 60, upper: 60 };
     let cart = JSON.parse(localStorage.getItem('nadara_cart')) || [];
     let currentCategory = 'all';
 
+    function toggleTheme() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        document.getElementById('themeBtn').innerText = isDark ? '☀️' : '🌙';
+        localStorage.setItem('nadara_theme', isDark ? 'dark' : 'light');
+    }
+
+    if (localStorage.getItem('nadara_theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('themeBtn').innerText = '☀️';
+    }
+
+    function openModal(imgUrl) {
+        document.getElementById('modalImg').src = imgUrl;
+        document.getElementById('imageModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('imageModal').style.display = 'none';
+    }
+
+    window.onscroll = function() {
+        const btn = document.getElementById('backToTop');
+        if (document.documentElement.scrollTop > 300) {
+            btn.style.display = 'flex';
+        } else {
+            btn.style.display = 'none';
+        }
+    };
+
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     function showToast(message) {
         const toast = document.getElementById('toast');
         toast.innerText = message;
         toast.classList.add('show');
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 2000);
+        setTimeout(() => toast.classList.remove('show'), 2000);
     }
 
     function renderProducts(itemsToRender = products) {
         const grid = document.getElementById('productsGrid');
         grid.innerHTML = '';
         if (itemsToRender.length === 0) {
-            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: #888; padding: 20px;">لا توجد منتجات تطابق بحثك.</div>';
+            grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-sub); padding: 20px;">لا توجد منتجات تطابق بحثك.</div>';
             return;
         }
         itemsToRender.forEach(p => {
@@ -214,7 +276,7 @@
             grid.innerHTML += `
                 <div class="product-card">
                     ${badgeHTML}
-                    <img src="${p.img}" class="product-img" alt="${p.name}">
+                    <img src="${p.img}" class="product-img" alt="${p.name}" onclick="openModal('${p.img}')">
                     <div class="product-title">${p.name}</div>
                     <div class="price-container">
                         <span class="product-price">${p.price} ج.م</span>
@@ -282,7 +344,7 @@
                 <div class="cart-item">
                     <div class="cart-item-info">
                         <div><b>${item.name}</b></div>
-                        <div style="font-size: 0.9rem; color: #666; margin-top: 3px;">${item.price} ج.م للقطعة</div>
+                        <div style="font-size: 0.9rem; color: var(--text-sub); margin-top: 3px;">${item.price} ج.م للقطعة</div>
                         <div class="quantity-controls">
                             <button type="button" class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
                             <span><b>${item.quantity}</b></span>
@@ -351,7 +413,6 @@
         const myPhone = "201070328288"; 
         window.open(`https://wa.me/${myPhone}?text=${encodeURIComponent(rawText)}`, '_blank');
 
-        // Clear cart after sending order
         cart = [];
         updateCart();
         document.getElementById('orderForm').reset();
